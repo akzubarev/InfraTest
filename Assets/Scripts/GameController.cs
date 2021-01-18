@@ -21,12 +21,19 @@ public class GameController : MonoBehaviour
 
     private Dictionary<string, Fighter> fighters = new Dictionary<string, Fighter>();
 
+    /// <summary>
+    /// Возвращает бойца по имени
+    /// </summary>
+    /// <param name="name">Имя из дропдауна</param>
+    /// <returns></returns>
     public Fighter GetFighter(string name)
     {
         return fighters[name];
     }
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Инициализирует коллекции для доступа к бойцам, запускает меню настроек
+    /// </summary>
     private void Awake()
     {
         teams.Add(team1);
@@ -45,6 +52,12 @@ public class GameController : MonoBehaviour
         settingsWindow.SetActive(true);
     }
 
+    /// <summary>
+    /// Находит ближайшего противника для бойца
+    /// </summary>
+    /// <param name="transform">Позиция бойца</param>
+    /// <param name="teamNum">Номер команды бойца</param>
+    /// <returns></returns>
     public GameObject FindClosestEnemy(Transform transform, int teamNum)
     {
         GameObject closestenemy = null;
@@ -71,6 +84,10 @@ public class GameController : MonoBehaviour
         return closestenemy;
     }
 
+    /// <summary>
+    /// Проверяет, не закончена ли игра (не уничтожена ли хотя бы одна команда)
+    /// </summary>
+    /// <returns></returns>
     public bool CheckGameEnd()
     {
         bool[] teamsDead = new bool[] { false, false };
@@ -83,8 +100,7 @@ public class GameController : MonoBehaviour
             foreach (GameObject fighter in teams[i])
                 if (!fighter)
                     dead++;
-
-
+            
             if (dead == teams[i].Count)
                 teamsDead[i] = true;
 
@@ -103,6 +119,9 @@ public class GameController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Запускает игру
+    /// </summary>
     public void StartGame()
     {
         settingsWindow.SetActive(false);
@@ -113,6 +132,10 @@ public class GameController : MonoBehaviour
         StartCoroutine("CheckGameEndCoroutine");
     }
 
+    /// <summary>
+    /// Проверяет, не закончилась ли игра (на случай если все умерли одновременно)
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CheckGameEndCoroutine()
     {
         bool isGameEnd = false;
@@ -124,6 +147,10 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Завершает игру и показывает результаты
+    /// </summary>
+    /// <param name="teamresults">Были ли команды уничтожены</param>
     private void EndGame(bool[] teamresults)
     {
         Time.timeScale = 0;
@@ -143,6 +170,9 @@ public class GameController : MonoBehaviour
                    $"The fight took {System.Math.Round(timeEnd - timeStart, 3)} seconds";
     }
 
+    /// <summary>
+    /// Перезапускает игру
+    /// </summary>
     public void Restart()
     {
         Time.timeScale = 1;

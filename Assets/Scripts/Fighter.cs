@@ -11,7 +11,6 @@ public class Fighter : MonoBehaviour
         range = 10;
 
     // [SerializeField] private GameObject trace;
-
     [SerializeField] private int teamNum;
 
     public int Health { get => health; set => health = value; }
@@ -27,7 +26,10 @@ public class Fighter : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Получает урон
+    /// </summary>
+    /// <param name="damage">величина урона</param>
     public void ReceiveDamage(int damage)
     {
         Health -= damage;
@@ -36,6 +38,11 @@ public class Fighter : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Следует за целью
+    /// </summary>
+    /// <param name="enemy">цель</param>
+    /// <returns></returns>
     private IEnumerator Follow(GameObject enemy)
     {
         Transform start = transform;
@@ -53,7 +60,11 @@ public class Fighter : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Проводит атаку по цели, если она в радиусе действия
+    /// </summary>
+    /// <param name="enemy">цель</param>
+    /// <returns></returns>
     private IEnumerator Attack(GameObject enemy)
     {
 
@@ -83,6 +94,9 @@ public class Fighter : MonoBehaviour
         ChangeTarget();
     }
 
+    /// <summary>
+    /// Ищет новую цель, начинает ее преследование и атаку
+    /// </summary>
     private void ChangeTarget()
     {
         GameObject newtarget = gameController.FindClosestEnemy(transform, teamNum);
@@ -93,6 +107,9 @@ public class Fighter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Начинает игру
+    /// </summary>
     public void StartGame()
     {
         ChangeTarget();
